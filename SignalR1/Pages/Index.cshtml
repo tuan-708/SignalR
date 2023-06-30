@@ -1,0 +1,43 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div id="snackbar"></div>
+
+<div class="card-body">
+    <table id="datatablesSimple">
+        <thead>
+            <tr>
+                <th>Name Product</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Instock</th>
+                <th>Acctions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Models.Product p in Model.Products)
+            {
+                <tr id="row-@p.ProductId">
+                    <td>@p.ProductName</td>
+                    <td>@((p.Category == null) ? "No info" : p.Category.CategoryName)</td>
+                    <td>@p.UnitPrice</td>
+                    <td>@p.UnitsInStock</td>
+                    <td style="display:flex;">
+                        <a class="btn btn-primary m-2" asp-page="/ProductDetail" asp-route-id="@p.ProductId">Detail</a>
+                        <form method="post">
+                            <input type="hidden" name="pid" value="@p.ProductId">
+                            <input class="btn btn-danger m-2" type="submit" value="Delete">
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+<script src="~/js/signalr.js"></script>
+<script src="~/js/deleteProductRealTime.js"></script>

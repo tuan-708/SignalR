@@ -1,0 +1,97 @@
+﻿@page
+@model SignalR1.Pages.ProductDetailModel
+@using SignalR1.Models
+@{
+}
+
+<div id="snackbar"></div>
+
+
+<h1>
+    Views:<span id="totalViewsCounter"></span>
+    <br />
+    Users:<span id="totalUsersCounter"></span>
+</h1>
+
+
+
+<div class="row">
+    <div class="col-md-4">
+        <form id="registerForm" method="post">
+            <h1>Product Detail</h1>
+            <hr />
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+            <div class="form-floating mb-3">
+                <input class="form-control" disabled value="@Model.ProductItem.ProductId" />
+                <input type="hidden" asp-for="@Model.ProductItem.ProductId" value="@Model.ProductItem.ProductId">
+                <label asp-for="@Model.ProductItem.ProductId">Product Id</label>
+                <span asp-validation-for="@Model.ProductItem.ProductId" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="@Model.ProductItem.ProductName" value="@Model.ProductItem.ProductName" class="form-control" aria-required="true" />
+                <label asp-for="@Model.ProductItem.ProductName">Product Name</label>
+                <span asp-validation-for="@Model.ProductItem.ProductName" class="text-danger"></span>
+            </div>
+
+            <label asp-for="@Model.ProductItem.SupplierId">Supplier:</label>
+            <select asp-for="@Model.ProductItem.SupplierId" class="custom-select" style="width:200px;">
+                @foreach (Supplier s in Model.Suppliers)
+                {
+                    if (s.SupplierId == Model.ProductItem.SupplierId)
+                    {
+                        <option selected value="@s.SupplierId">@s.CompanyName</option>
+                    }
+                    else{
+                         <option value="@s.SupplierId">@s.CompanyName</option>
+                    }
+
+                }
+            </select>
+
+            <br></br>
+            <label asp-for="@Model.ProductItem.CategoryId">Category:</label>
+            <select asp-for="@Model.ProductItem.CategoryId" class="custom-select" style="width:200px;">
+                @foreach (Category c in Model.Categories)
+                {
+                    if (c.CategoryName == Model.ProductItem.Category.CategoryName)
+                    {
+                        <option selected value="@c.CategoryId">@c.CategoryName</option>
+                    }
+                    else{
+                        <option value="@c.CategoryId">@c.CategoryName</option>
+                        
+                    }
+                }
+            </select>
+
+            <div class="form-floating mb-3">
+                <input asp-for="@Model.ProductItem.QuantityPerUnit" value="@Model.ProductItem.QuantityPerUnit" class="form-control" aria-required="true" />
+                <label asp-for="@Model.ProductItem.QuantityPerUnit">QuantityPerUnit</label>
+                <span asp-validation-for="@Model.ProductItem.QuantityPerUnit" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="@Model.ProductItem.UnitPrice" value="@Model.ProductItem.UnitPrice" class="form-control" aria-required="true" />
+                <label asp-for="@Model.ProductItem.UnitPrice">UnitPrice</label>
+                <span asp-validation-for="@Model.ProductItem.UnitPrice" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="@Model.ProductItem.UnitsInStock" value="@Model.ProductItem.UnitsInStock" class="form-control" aria-required="true" />
+                <label asp-for="@Model.ProductItem.UnitsInStock">UnitsInStock</label>
+                <span asp-validation-for="@Model.ProductItem.UnitsInStock" class="text-danger"></span>
+            </div>
+
+            <input type="hidden" asp-for="@Model.ProductItem.UnitsOnOrder" value="@Model.ProductItem.UnitsOnOrder">
+            <input type="hidden" asp-for="@Model.ProductItem.ReorderLevel" value="@Model.ProductItem.ReorderLevel">
+
+            
+            <button id="editProduct" type="submit" class="w-100 btn btn-lg btn-primary">Edit</button>
+        </form>
+    </div>
+</div>
+
+
+<script src="~/js/signalr.js"></script>
+<script src="~/js/updateProductRealTime.js"></script>
